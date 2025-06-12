@@ -44,6 +44,8 @@ import os
 key = os.getenv("OPENAI_API_KEY")
 ```
 
+<br>
+
 ## Exploring OpenAI module
 
 ### Initializing the openai client
@@ -136,3 +138,56 @@ With `frequency_penalty`:
 - The model can still use "apple" again, just not too many times.
 - Result might be:
 > "I saw an apple. The apple was red. It was tasty."
+
+<br>
+
+## Reasoning Models
+
+The cheapest and most capable chat completion model is `gtp-3.5-turbo`, whereas the `o3-mini` is the cheapest reasoning-focused model.
+
+**NOTE**: Its best to wrap prompt inside a python like docstring `""" {prompt} """`.
+
+```python
+response = client.chat.completions.create(
+        model="o3-mini",
+        # parameter works for "o-series" reasoning model only
+        # controls how much internal reasoning the model uses before responding
+        # defaults to "medium"
+        reasoning_effort="medium",
+        messages=[
+            {"role": "system", "content": "You are helpful assistant!"},
+            {"role": "user", "content": prompt},
+        ],
+    )
+```
+
+**NOTE**: Reasoning models take longer to respond.
+
+### Best Practices
+
+- If quick factual responses are required, standard GPT models are more than sufficient
+- Keep prompts simple and direct
+    - Good: 'summarize the paper in one paragraphq'
+    - Bad: 'think step by step and summarize this paper while considering key findings, methods, implication'
+- Avoid chain of thoughts
+    - They already generate internal thought process
+    - Its better to ask for final model to avoid performance degradation
+- Use delimiters for clarification
+    - Use XML tags, markdown for code blocks etc.
+- Start with zero-shot, then use few-shot if needed
+    - If the model struggles, provide 1 or 2 carefully chosen examples
+    - Eg:
+        - `input`: Describe AI breakthrough in 50 words
+        - `example`: gpt-4o reduced latency, improving real time interactions
+        - `your turn`:
+- Provide specific guidelines
+    - Eg: Instead of asking for cost effective solution, ask for solution with budget under 500 and setup time under 2hrs
+- Be clear about end goal
+    - Eg: Generate a plan for AI powered chatbot and success criteria would be keeping the cost under $1k per month
+
+<br>
+
+## How GTP models work
+
+- OpenAI's GPT family of models are all Large Language Models (LLM).
+- An LLM is a type of AI that can generate and understand human language.
