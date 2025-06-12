@@ -12,9 +12,9 @@ pip3 install --upgrade openai -q
 
 ## Dash Board
 
-API Keys: https://platform.openai.com/account/api-keys
-Usage: https://platform.openai.com/settings/organization/usage
-Tokenizer: https://platform.openai.com/tokenizer
+- API Keys: https://platform.openai.com/account/api-keys
+- Usage: https://platform.openai.com/settings/organization/usage
+- Tokenizer: https://platform.openai.com/tokenizer
 
 
 #### Accessing API Key
@@ -46,6 +46,8 @@ key = os.getenv("OPENAI_API_KEY")
 
 ## Exploring OpenAI module
 
+### Initializing the openai client
+
 ```python
 import os
 from openai import OpenAI
@@ -56,7 +58,7 @@ client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 print(client.models.list())
 ```
 
-## First prompt
+### First prompt
 
 ```python
 import os
@@ -72,10 +74,65 @@ response = client.chat.completions.create(
     messages=[
         # sets the tone of the assitant
         {"role": "system", "content": "You are helpful assistant!"},
-        # consits the actual prompt
+        # contains the actual prompt
         {"role": "user", "content": "What is the theory of relativity"},
     ],
     # gives 2 answers
     n=2,
+    temperature=0.2,
+    seed=1234,
+    top_p=1,
+    max_tokens=1000,
+    stop="\n",
+    frequency_penalty=0,
+    presence_penalty=0,
 )
 ```
+
+Where,
+- `n`: 
+    - Gives the no. of answers
+    - Eg: n=2 will give 2 answers
+    - **NOTE**: Make sure to use "n=1" for predictible result
+- `temperature`:
+    - Higher value makes the model more creative; but it can generate nonsense
+    - Lower value  makes the model more determinsitc; generate predictable results
+    - The value ranges from "0" to "2.0"
+    - **NOTE**: OpenAI models are non-determinstic, i.e. identical inputs can produce different outputs
+- `seed`:
+    - It helps in locking the randomness
+    - Ensures reproducibility; using same "prompt", "model", "temperature", "seed" ensure the same result
+- `top_p`:
+    - Every token has a 'probability' value
+    - **top_p** adds the values and returns only the tokens whose added value reaches the input value
+    - Eg: `top_p=0.1` will get us top 10% most probable tokens
+    - **NOTE**: Better not to use it along side "temperature"
+- `max_tokens`:
+    - Limits the max no. of tokens to be generated in chat completion
+    - **NOTE**: Should be chosen carefully; else the output will be cutoff and won't make sense
+- `stop`:
+    - Trims and returns the result that ends before a specified character
+    - Supports up to 4 stop sequences using a list.
+    - Eg: Example: stop = [":", "\n"]
+- `frequency_penalty`:
+    - It defaults to 0; ranges from -2.0 to +2.0
+    - Higher values reduce repeated tokens; encourages more varied word choice
+    - It reduces frequent repetition; avoids saying the same word over and over
+- `presence_penalty`:
+    - It defaults to 0; ranges from -2.0 to +2.0
+    - Promotes diversity; avoids even mentioning the same word twice
+
+### frequency_penalty VS presence_penalty
+
+If the following sentence is being generated
+> "I saw an apple. The apple was red. The apple was tasty."
+
+With `presence_penalty`:
+- The model sees that it already used the word "apple" once, so it tries not to use it again at all.
+- Result might be:
+> "I saw an apple. The fruit was red and tasty."
+
+With `frequency_penalty`:
+- The model can still use "apple" again, just not too many times.
+- Result might be:
+> "I saw an apple. The apple was red. It was tasty."
