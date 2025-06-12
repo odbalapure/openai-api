@@ -30,12 +30,24 @@ response = client.chat.completions.create(
 )
 ```
 
-###  image url as an input
+###  Using image url as an input
 
-To use image urls just do this
+To use image urls, just put the url instead of the base64 string output.
 
 ```python
 image_url = "https://www.unsplash.com/food.png"
 
-"image_url": {"url": image_url},
+messages=[
+    {"role": "system", "content": system_message},
+    {
+        "role": "user",
+        "content": [
+            {"type": "text", "text": prompt},
+            {
+                "type": "image_url",
+                "image_url": {"url": image_url},
+            },
+        ],
+    },
+],
 ```
