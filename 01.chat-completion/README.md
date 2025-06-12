@@ -1,4 +1,4 @@
-## Installion and API key
+## Installation
 
 #### Install openai locally
 
@@ -184,10 +184,3 @@ response = client.chat.completions.create(
     - Eg: Instead of asking for cost effective solution, ask for solution with budget under 500 and setup time under 2hrs
 - Be clear about end goal
     - Eg: Generate a plan for AI powered chatbot and success criteria would be keeping the cost under $1k per month
-
-<br>
-
-## How GTP models work
-
-- OpenAI's GPT family of models are all Large Language Models (LLM).
-- An LLM is a type of AI that can generate and understand human language.
