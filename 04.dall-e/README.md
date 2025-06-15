@@ -3,6 +3,8 @@
 - Dall-E is a nuerla network and a version of GPT-3, that uses a dataset of text-images pairs.
 - It is a transformer language model.
 
+## Generating new images
+
 Converts text prompt to images.
 
 ```python
@@ -73,7 +75,6 @@ response = client.images.edit(
     image=image, mask=mask, prompt="Put the moon in the background of the DP"
 )
 
-# NOTE: jpeg/jpg is unsupported
 print(f"Edited image url: {response.data[0].url}")
 ```
 
