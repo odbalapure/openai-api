@@ -169,9 +169,11 @@ response = client.chat.completions.create(
 - Keep prompts simple and direct
     - Good: 'summarize the paper in one paragraphq'
     - Bad: 'think step by step and summarize this paper while considering key findings, methods, implication'
-- Avoid chain of thoughts
-    - They already generate internal thought process
-    - Its better to ask for final model to avoid performance degradation
+- Use chain of thoughts
+    - Explicitly ask the model to reason step by step, instead of jumping straight to an answer.
+    - LLMs are token predictors, not truth validators:
+        - Asking for "the answer" triggers pattern recall.
+        - Asking for "step by step" triggers internal logic simulation.
 - Use delimiters for clarification
     - Use XML tags, markdown for code blocks etc.
 - Start with zero-shot, then use few-shot if needed
@@ -184,3 +186,6 @@ response = client.chat.completions.create(
     - Eg: Instead of asking for cost effective solution, ask for solution with budget under 500 and setup time under 2hrs
 - Be clear about end goal
     - Eg: Generate a plan for AI powered chatbot and success criteria would be keeping the cost under $1k per month
+- Don't use negations
+    - Tell the prompt what to do (don't write a story longer than 500 words)
+    - And what not to do (tell a story is less than 500 words)
