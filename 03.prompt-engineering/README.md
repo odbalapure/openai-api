@@ -81,11 +81,11 @@ Assume a fresh Ubuntu server with sudo access and a domain already pointed to th
 
 **Zero-Shot**: user provides a prompt and the LLM tries to generate the o/p as well it can.  
 
-**Multi-Shot**: use provides examples of desired output, along with clear instructions and context.  
+**Multi-Shot**: user provides examples of desired output, along with clear instructions and context.  
 
 We can mention the assitant role, its the assistant’s previous response. The assistant role is critical for maintaining context across multiple turns. If you're doing a multi-step conversation or follow-ups, you must include previous assistant messages like this:
 
-```json
+```
 // template:
 messages = [
     {"role": "system", "content": system_role},
@@ -130,16 +130,16 @@ Use:
 If you provide a prompt like
 > Write an aritcle about Un-obtainium
 
-The LLM will provide an article even if such thing never existed.
+The LLM will provide an article, even if such a thing never existed.
 
 Instead mention
-> Write an aritcle about Un-obtainium. Write only facts about this product according to source such as Wikipedia, Google scholar, Encyclopedia or reliable public sources. If you don't find information just say "I don't know".
+> Write an aritcle about Un-obtainium. Write only facts about this element according to source such as Wikipedia, Google scholar, Encyclopedia or reliable public sources. If you don't find information just say "I don't know".
 
 ### Other tactics
 
 #1. Don't use negations
-- Tell the prompt what to do (don't write a story longer than 500 words)
-- And what not to do (tell a story is less than 500 words)
+- Tell the prompt what to do (tell a story is less than 500 words)
+- And what not to do (don't write a story longer than 500 words)
 
 #2. We can drop hints in the prompt to get desired output
 

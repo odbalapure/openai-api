@@ -1,6 +1,6 @@
 ## Installation
 
-#### Install openai locally
+Install **openai** locally
 
 ```zsh
 pip3 install --upgrade openai -q
