@@ -42,7 +42,7 @@ response = client.images.generate(
     - Options:
         - "standard": Regular quality (lower cost).
         - "hd": High-definition, better detail (higher cost).
-`n`:
+- `n`:
     - Number of images to generate in the request.
     - ⚠️ **NOTE**:
         - **dall-e-2** supports multiple images per request.

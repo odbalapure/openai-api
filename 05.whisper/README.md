@@ -1,9 +1,10 @@
 # Whisper 
 
-- Whisper is a trained open source neural network that approaches human level robustness and accuarcy on English speech recognition/
-- OpenAI API provides two endpoints:
-    - transcriptions
-    - translations
+Whisper is an open-source, pre-trained neural network developed by OpenAI that approaches human-level robustness and accuracy in English speech recognition.
+
+The OpenAI API provides two main endpoints for Whisper:
+- `transcriptions`: Converts spoken audio into text in the original language.
+- `translations`: Translates spoken audio into English text.
 
 ## Generate transcription
 
@@ -51,6 +52,8 @@ Generates an English translated from a file. The file size and format
 
 ## Text to speech
 
+Generates an audio file from text.
+
 ```python
 response = client.audio.speech.create(
     # Provides lowest latency but lower quality as compared to "tts-1-hd"
@@ -61,7 +64,8 @@ response = client.audio.speech.create(
     input="This is an open book, filled with chapters yet unwritten, awaiting the brilliance of our minds to fill it.",
 )
 
-# Supported output formats are: MP3, OPUS, AAC, FLAC
 with open("./audio/output/Speech.mp3", "wb") as audio_file:
     audio_file.write(response.content)
 ```
+
+> Supported output formats are: MP3, OPUS, AAC, FLAC
