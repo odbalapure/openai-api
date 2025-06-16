@@ -51,7 +51,7 @@ while True:
     if current_question.lower() == "":
         continue
 
-    # Append the new question
+    # Append user's prompt
     messages.append({"role": "user", "content": current_question})
     questions.append(current_question)
 
@@ -62,9 +62,9 @@ while True:
     )
 
     current_response = response.choices[0].message.content
-    print(f"Chat Bot: {current_question}\n")
+    print(f"Chat Bot: {current_response}\n")
     bot_responses.append(current_response)
 
-    # Append the previous response from GPT to set the context
-    messages.append({"role": "assistant", "content": current_question})
+    # Append assistant's response to continue the conversation context
+    messages.append({"role": "assistant", "content": current_response})
     print("\n" + "-" * 50 + "\n")
