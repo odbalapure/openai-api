@@ -46,11 +46,26 @@ def download_audio(url: str, output_dir: str = "audio/download") -> str:
     return os.path.join(output_dir, f"{safe_title}.mp3")
 
 
-def get_translation(audio_file):
+def get_summar(audio_file):
     with open(audio_file, "rb") as f:
-        transcript = client.audio.translations.create(model="whisper-1", file=f)
-        print(f"Transcription for audio: {transcript.text}")
+        transcript = client.audio.transcriptions.create(model="whisper-1", file=f)
+
+        system_prompt = "You are to summarize youtube video transcripts"
+        prompt = f"""Create a summary of the following text.
+        Text: {transcript.text}"""
+
+        summary_respons = client.chat.completions.create(
+            model="gpt-3.5-turbo",
+            messages=[
+                {"role": "system", "content": system_prompt},
+                {"role": "user", "content": prompt},
+            ],
+            temperature=1,
+        )
+
+        return summary_respons.choices[0].message.content
 
 
 audio_file = download_audio("https://www.youtube.com/watch?v=RI3JCq9-bbM")
-get_translation(audio_file)
+summary = get_summar(audio_file)
+print(f"Video summary {summary}")
